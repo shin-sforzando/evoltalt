@@ -20,7 +20,10 @@ evoltalt
 ### Arduino Leonard
 #### IM315SHLDv2
 #### Adafruit Data Logger Shield rev B
-SD card works well with FAT32 format.
+SD card works well with FAT32 format using [SD Formatter](https://www.sdcard.org/downloads/formatter_4/).
+Original SD chip select pin is 10, but it's conflicting with IM920 busy pin.
+New soldered chip select pin is **9**.
+
 RTC chip is PCF8523.
 Battery for RTC is CR1220.
 It needs [RTClib](https://github.com/adafruit/RTClib).
