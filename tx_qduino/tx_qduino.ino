@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 #define BME280_ADDRESS 0x76
-#define IM920_BUSY_PIN 14
+#define IM920_BUSY_PIN 4
 
 unsigned long int hum_raw, temp_raw, pres_raw;
 signed long int t_fine;

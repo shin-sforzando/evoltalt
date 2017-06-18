@@ -35,3 +35,19 @@ It needs [RTClib](https://github.com/adafruit/RTClib).
 * Digital #10 - SD Card chip select (can cut a trace to re-assign)
 * SDA not connected to A4
 * SCL not connected to A5
+
+## TODO
+### HIGH
+- [ ] TX: miniaturize
+- [ ] TX: measure consumption power
+- [ ] RX: sanitize to serial
+- [ ] RX: capture to txt
+- [ ] RX: implement BME280
+
+### MID
+- [ ] RX: capture to SD card
+- [ ] TX/RX: make repeater
+
+### LOW
+- [ ] TX: casing
+- [ ] RX: prepare graph & server
