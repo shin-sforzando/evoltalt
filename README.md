@@ -5,8 +5,12 @@ evoltalt
 
 - [TX](#tx)
 	- [Qduino mini](#qduino-mini)
+	- [AE-BME280](#ae-bme280)
+	- [IM920](#im920)
 - [RX](#rx)
 	- [Raspberry PI 3](#raspberry-pi-3)
+	- [BME280](#bme280)
+	- [IM920 via USB](#im920-via-usb)
 - [TODO](#todo)
 	- [TX](#tx)
 	- [RX](#rx)
@@ -15,11 +19,17 @@ evoltalt
 
 ## TX
 ### Qduino mini
+### AE-BME280
+### IM920
 
 ## RX
 ### Raspberry PI 3
+### BME280
+### IM920 via USB
 
 ## TODO
 ### TX
+- [ ] MID: set irregular value
 
 ### RX
+- [ ] HIGH: calculate altitude with base value
