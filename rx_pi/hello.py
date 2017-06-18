@@ -10,15 +10,14 @@ import ibmiotf.application
 import ibmiotf.device
 
 try:
-  options = ibmiotf.device.ParseConfigFile("./config.cfg")
-  client = ibmiotf.device.Client(options)
+    options = ibmiotf.device.ParseConfigFile("./config.cfg")
+    client = ibmiotf.device.Client(options)
 except ibmiotf.ConnectionException as e:
-  print(str(e))
-  sys.exit()
+    print(str(e))
+    sys.exit()
 
 client.connect()
 
 client.publishEvent("hello", "json", "hello")
 
 client.disconnect()
-
