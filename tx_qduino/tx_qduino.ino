@@ -89,31 +89,34 @@ void loop() {
         battery.goToSleep();
 
         // check irregular data
-        if (charge < 0) {
+        if (charge <= 0 ||
+            actual_pressure <= 700 || 1083.8 <= actual_pressure ||
+            actual_temperature <= -40 || 58.8 <= actual_temperature ||
+            actual_humidity <= 0 || 100 <= actual_humidity) {
                 resetQduino();
         }
 
         Serial.print(charge);
-        Serial.print("[%] ");
+        Serial.print("% ");
         Serial.print(actual_pressure);
-        Serial.print("[hPa] ");
+        Serial.print("hPa ");
         Serial.print(actual_temperature);
-        Serial.print("[C] ");
+        Serial.print("C ");
         Serial.print(actual_humidity);
-        Serial.println("[%]");
+        Serial.println("%");
 
         do {
                 im920_busy = digitalRead(IM920_BUSY_PIN);
         } while (im920_busy != 0);
         IM920.print("TXDA ");
         IM920.print(charge);
-        IM920.print("[%] ");
+        IM920.print("% ");
         IM920.print(actual_pressure);
-        IM920.print("[hPa] ");
+        IM920.print("hPa ");
         IM920.print(actual_temperature);
-        IM920.print("[C] ");
+        IM920.print("C ");
         IM920.print(actual_humidity);
-        IM920.print("[%]\r\n");
+        IM920.print("%\r\n");
 
         q.ledOff();
         delay(TX_INTERVAL);

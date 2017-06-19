@@ -19,7 +19,7 @@ except ibmiotf.ConnectionException as e:
     print str(e)
     sys.exit()
 
-regex = r"(?P<node>\d{2}),(?P<sender>\w{4}),(?P<rssi>\w{2}):\s(?P<charge>\d+)\[%\]\s(?P<pressure>\d+\.\d+)\[hPa\]\s(?P<temperature>\d+\.\d+)\[C\]\s(?P<humidity>\d+\.\d+)\[%\]"
+regex = r"(?P<node>\d{2}),(?P<sender>\w{4}),(?P<rssi>\w{2}):\s(?P<charge>\d+)%\s(?P<pressure>\d+\.\d+)hPa\s(?P<temperature>\d+\.\d+)C\s(?P<humidity>\d+\.\d+)%"
 
 pattern = re.compile(regex)
 
@@ -31,7 +31,7 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
         if m:
             now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
             base_temperature, base_pressure, base_humidity = bme280.readBME280All()
-            print now, rx_msg
+            print now, rx_msg,
             data = {"time": now, "sender": m.group("sender"), "rssi": int(m.group("rssi"), 16), "charge": int(m.group("charge")),
                     "base_temperature": base_temperature, "base_pressure": base_pressure, "base_humidity": base_humidity,
                     "current_temperature": float(m.group("temperature")), "current_pressure": float(m.group("pressure")), "current_humidity": float(m.group("humidity")), "altitude": 0.0}
