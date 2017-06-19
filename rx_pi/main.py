@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import logging
+from logging import getLogger, StreamHandler, FileHandler, Formatter, DEBUG
 import os
 import re
 import serial
@@ -14,10 +14,17 @@ import bme280
 import ibmiotf.application
 import ibmiotf.device
 
-stream_handler = logging.StreamHandler
-file_handler = logging.FileHandler(filename="log.txt")
-logging.getLogger().addHandler(stream_handler)
-logging.getLogger().addHandler(file_handler)
+logger = getLogger(__name__)
+formatter = Formatter("[%(levelname)s] %(asctime)s - %(message)s", datefmt="%H:%M:%S %Z")
+stream_handler = StreamHandler()
+stream_handler.setLevel(DEBUG)
+stream_handler.setFormatter(formatter)
+file_handler = FileHandler(filename=datetime.now().strftime("%Y%m%d") + ".log")
+file_handler.setLevel(DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+logger.addHandler(file_handler)
+logger.setLevel(DEBUG)
 
 try:
     config_path = os.path.join(os.path.dirname(__file__), 'config.cfg')
@@ -39,7 +46,8 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
         if m:
             now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
             base_temperature, base_pressure, base_humidity = bme280.readBME280All()
-            logger.info("rx: %s", rx_msg)
+            logger.info("current: %s", m.group())
+            logger.info("base: %shPa %sC %s%%", base_pressure, base_temperature, base_humidity)
             data = {"time": now, "sender": m.group("sender"), "rssi": int(m.group("rssi"), 16), "charge": int(m.group("charge")),
                     "base_temperature": base_temperature, "base_pressure": base_pressure, "base_humidity": base_humidity,
                     "current_temperature": float(m.group("temperature")), "current_pressure": float(m.group("pressure")), "current_humidity": float(m.group("humidity")), "altitude": 0.0}
