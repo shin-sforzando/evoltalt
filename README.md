@@ -38,3 +38,6 @@ evoltalt
 
 ### RX
 - [ ] HIGH: calculate altitude with base value
+- [ ] MID: log to SD card
+
+### Web
