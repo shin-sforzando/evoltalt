@@ -50,23 +50,25 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
         if m:
             now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
+            base_temperature, base_pressure, base_humidity = bme280.readBME280All()
+            logger.info("Base     : %shPa %sC %s%%", base_pressure, base_temperature, base_humidity)
+
+            logger.info("Current  : %s", m.group())
             current_sender = m.group("sender")
             current_rssi = int(m.group("rssi"), 16)
             current_charge = int(m.group("charge"))
             current_pressure = float(m.group("pressure"))
             current_temperature = float(m.group("temperature"))
             current_humidity = float(m.group("humidity"))
-            logger.info("current: %s", m.group())
-
-            base_temperature, base_pressure, base_humidity = bme280.readBME280All()
-            logger.info("base: %shPa %sC %s%%", base_pressure, base_temperature, base_humidity)
+            current_altitude = estimate_altitude(base_pressure, current_pressure, current_temperature)
+            logger.info("Altitude : %s[m]", current_altitude)
 
             data = {"time": now, "sender": current_sender, "rssi": current_rssi, "charge": current_charge,
                     "base_temperature": base_temperature, "base_pressure": base_pressure, "base_humidity": base_humidity,
-                    "current_temperature": current_temperature, "current_pressure": current_pressure, "current_humidity": current_humidity, "altitude": estimate_altitude(base_pressure, current_pressure, current_temperature)}
+                    "current_temperature": current_temperature, "current_pressure": current_pressure, "current_humidity": current_humidity, "altitude": current_altitude}
 
             def on_publish_callback():
-                logger.info("Published the data received at %s.", data["time"])
+                logger.info("Published: %s", data)
 
             success = client.publishEvent("evoltalt", "json", data, qos=1, on_publish=on_publish_callback)
             if not success:

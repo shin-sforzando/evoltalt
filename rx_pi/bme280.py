@@ -72,12 +72,12 @@ def readBME280All(addr=DEVICE):
     REG_HUM_LSB = 0xFE
 
     # Oversample setting - page 27
-    OVERSAMPLE_TEMP = 2
-    OVERSAMPLE_PRES = 2
+    OVERSAMPLE_TEMP = 5
+    OVERSAMPLE_PRES = 5
     MODE = 1
 
     # Oversample setting for humidity register - page 26
-    OVERSAMPLE_HUM = 2
+    OVERSAMPLE_HUM = 5
     bus.write_byte_data(addr, REG_CONTROL_HUM, OVERSAMPLE_HUM)
 
     control = OVERSAMPLE_TEMP << 5 | OVERSAMPLE_PRES << 2 | MODE
