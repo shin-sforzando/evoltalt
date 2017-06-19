@@ -34,7 +34,7 @@ evoltalt
 
 ## TODO
 ### TX
-- [ ] MID: set irregular value
+- [x] MID: set irregular value
 
 ### RX
 - [ ] HIGH: calculate altitude with base value
