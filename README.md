@@ -29,6 +29,8 @@ evoltalt
 ### BME280
 ### IM920 via USB
 
+`$ pip install -r requirements.txt`
+
 ## Web
 
 
@@ -37,7 +39,7 @@ evoltalt
 - [x] MID: set irregular value
 
 ### RX
-- [ ] HIGH: calculate altitude with base value
+- [x] HIGH: calculate altitude with base value
 - [ ] MID: log to SD card
 
 ### Web

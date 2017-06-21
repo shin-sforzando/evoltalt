@@ -10,11 +10,12 @@ import sys
 import time
 
 import bme280
-
+import coloredlogs
 import ibmiotf.application
 import ibmiotf.device
 
 logger = getLogger(__name__)
+coloredlogs.install(level="DEBUG")
 formatter = Formatter("[%(levelname)s] %(asctime)s - %(message)s", datefmt="%H:%M:%S %Z")
 stream_handler = StreamHandler()
 stream_handler.setLevel(DEBUG)
