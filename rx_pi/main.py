@@ -14,12 +14,15 @@ import bme280
 import ibmiotf.application
 import ibmiotf.device
 
+working_path = os.path.dirname(__file__)
+log_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".log")
+
 logger = getLogger(__name__)
 formatter = Formatter("[%(levelname)s] %(asctime)s - %(message)s", datefmt="%H:%M:%S %Z")
 stream_handler = StreamHandler()
 stream_handler.setLevel(DEBUG)
 stream_handler.setFormatter(formatter)
-file_handler = FileHandler(filename=datetime.now().strftime("%Y%m%d") + ".log")
+file_handler = FileHandler(filename=log_path)
 file_handler.setLevel(DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
@@ -27,7 +30,7 @@ logger.addHandler(file_handler)
 logger.setLevel(DEBUG)
 
 try:
-    config_path = os.path.join(os.path.dirname(__file__), 'config.cfg')
+    config_path = os.path.join(working_path, 'config.cfg')
     options = ibmiotf.device.ParseConfigFile(config_path)
     client = ibmiotf.device.Client(options)
 except ibmiotf.ConnectionException as e:
@@ -48,7 +51,7 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
         rx_msg = ser.readline()
         m = pattern.match(rx_msg)
         if m:
-            now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+            now = datetime.now()
 
             base_temperature, base_pressure, base_humidity = bme280.readBME280All()
             logger.info("Base     : %shPa %sC %s%%", base_pressure, base_temperature, base_humidity)
@@ -63,7 +66,7 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
             current_altitude = estimate_altitude(base_pressure, current_pressure, current_temperature)
             logger.info("Altitude : %s[m]", current_altitude)
 
-            data = {"time": now, "sender": current_sender, "rssi": current_rssi, "charge": current_charge,
+            data = {"timestamp": now.isoformat(), "sender": current_sender, "rssi": current_rssi, "charge": current_charge,
                     "base_temperature": base_temperature, "base_pressure": base_pressure, "base_humidity": base_humidity,
                     "current_temperature": current_temperature, "current_pressure": current_pressure, "current_humidity": current_humidity, "altitude": current_altitude}
 
