@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=evoltalt-rx
+Comment=Evolta Challenge 2017
+Exec=/usr/bin/python3 main.py
+Icon=/usr/share/pixmaps/python2.7.xpm
+Terminal=true
+Type=Application
+Categories=Development;
+StartupNotify=true
+NoDisplay=true
+Path=/home/pi/Workspace/evoltalt/rx_pi
