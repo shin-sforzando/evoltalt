@@ -14,15 +14,17 @@ import coloredlogs
 import ibmiotf.application
 import ibmiotf.device
 
+os.environ["COLOREDLOGS_LOG_FORMAT"] = "[%(hostname)s] %(asctime)s - %(message)s"
+os.environ["COLOREDLOGS_DATE_FORMAT"] = "%H:%M:%S"
+
 working_path = os.path.dirname(__file__)
 log_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".log")
 
 logger = getLogger(__name__)
+coloredlogs.install(level="DEBUG")
 formatter = Formatter("[%(levelname)s] %(asctime)s - %(message)s", datefmt="%H:%M:%S %Z")
 stream_handler = StreamHandler()
-stream_handler.addFilter(coloredlogs.HostNameFilter)
 stream_handler.setLevel(DEBUG)
-stream_handler.setFormatter(formatter)
 file_handler = FileHandler(filename=log_path)
 file_handler.setLevel(DEBUG)
 file_handler.setFormatter(formatter)
