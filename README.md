@@ -29,14 +29,14 @@ evoltalt
 ### BME280
 ### IM920 via USB
 
-`$ pip install -r requirements.txt`
+`$ pip3 install -r requirements.txt --user`
 
 ## Web
 
 
 ## TODO
 ### TX
-- [x] MID: set irregular value
+- [ ] MID: set irregular value
 
 ### RX
 - [x] HIGH: calculate altitude with base value
