@@ -50,7 +50,7 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
     client.connect()
     while ser.isOpen():
         rx_msg = ser.readline()
-        m = pattern.match(rx_msg)
+        m = pattern.match(rx_msg.decode('utf-8'))
         if m:
             now = datetime.now()
 
