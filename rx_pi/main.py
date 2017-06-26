@@ -56,9 +56,9 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
                 now = datetime.now()
 
                 base_temperature, base_pressure, base_humidity = bme280.readBME280All()
-                logger.info("Base     : %shPa\t%sC\t%s%%", base_pressure, base_temperature, base_humidity)
+                logger.info("Base    : %shPa %sC %s%%", base_pressure, base_temperature, base_humidity)
 
-                logger.info("Current  : %s", m.group())
+                logger.info("Current : %s", m.group())
                 current_sender = m.group("sender")
                 current_rssi = int(m.group("rssi"), 16)
                 current_charge = int(m.group("charge"))
@@ -66,7 +66,7 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
                 current_temperature = float(m.group("temperature"))
                 current_humidity = float(m.group("humidity"))
                 current_altitude = estimate_altitude(base_pressure, current_pressure, current_temperature)
-                logger.info("Altitude : %s[m]", current_altitude)
+                logger.info("Altitude: %s[m]", current_altitude)
 
                 data = {"timestamp": now.isoformat(), "sender": current_sender, "rssi": current_rssi, "charge": current_charge,
                         "base_temperature": base_temperature, "base_pressure": base_pressure, "base_humidity": base_humidity,
@@ -78,4 +78,3 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
                 except dweepy.api.DweepyError as de:
                     logger.error(de)
                     time.sleep(1)
-

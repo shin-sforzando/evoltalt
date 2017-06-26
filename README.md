@@ -22,7 +22,8 @@ evoltalt
 ### Qduino mini
 ### AE-BME280
 ### IM920
-`00,19AE,CA: 93[%] 1006.99[hPa] 32.54[C] 35.01[%]`
+
+`00,19AE,CA: 93% 1006.99hPa 32.54C 35.01%`
 
 ## RX
 ### Raspberry PI 3
@@ -33,13 +34,12 @@ evoltalt
 
 ## Web
 
+* [dweet.io](https://dweet.io/follow/evoltalt)
+* [freeboard](https://freeboard.io/board/FXvozP)
 
 ## TODO
 ### TX
-- [ ] MID: set irregular value
 
 ### RX
-- [x] HIGH: calculate altitude with base value
-- [ ] MID: log to SD card
 
 ### Web
