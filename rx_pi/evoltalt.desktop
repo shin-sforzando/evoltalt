@@ -2,7 +2,7 @@
 Name=evoltalt-rx
 Comment=Evolta Challenge 2017
 Exec=/usr/bin/python3 main.py
-Icon=/usr/share/pixmaps/python2.7.xpm
+Icon=/usr/share/pixmaps/python3.4.xpm
 Terminal=true
 Type=Application
 Categories=Development;
