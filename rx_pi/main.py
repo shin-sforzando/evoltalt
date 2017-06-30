@@ -24,7 +24,10 @@ os.environ["COLOREDLOGS_LOG_FORMAT"] = "[%(levelname)s]\t%(asctime)s - %(message
 os.environ["COLOREDLOGS_DATE_FORMAT"] = "%H:%M:%S"
 
 working_path = os.path.dirname(__file__)
-log_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".log")
+if os.path.exists("/media/usb0"):
+    log_path = os.path.join("/media/usb0", datetime.now().strftime("%Y%m%d") + ".log")
+else:
+    log_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".log")
 
 logger = getLogger(__name__)
 coloredlogs.install(level="DEBUG", logger=logger)
