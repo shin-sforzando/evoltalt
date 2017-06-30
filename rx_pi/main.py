@@ -8,6 +8,7 @@ import re
 import serial
 import sys
 import time
+import csv
 
 import bme280
 import coloredlogs
@@ -28,6 +29,8 @@ if os.path.exists("/media/usb0"):
     log_path = os.path.join("/media/usb0", datetime.now().strftime("%Y%m%d") + ".log")
 else:
     log_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".log")
+
+csv_path = os.path.join(working_path, datetime.now().strftime("%Y%m%d") + ".csv")
 
 logger = getLogger(__name__)
 coloredlogs.install(level="DEBUG", logger=logger)
@@ -64,9 +67,16 @@ last_update = datetime.now()
 last_altitude = 0
 idx = 0
 
+fieldnames = ["timestamp", "sender", "rssi", "charge", "base_temperature", "base_pressure", "base_humidity", "current_temperature", "current_pressure", "current_humidity", "altitude", "speed", "latitude", "longitude"]
 
 with serial.Serial("/dev/ttyUSB0", 19200) as ser:
+    if os.stat(csv_path).st_size == 0:
+        with open(csv_path, "w") as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+
     time.sleep(1)
+
     while ser.isOpen():
         with requests.Session() as session:
             rx_msg = ser.readline()
@@ -102,6 +112,10 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
                         "current_temperature": current_temperature, "current_pressure": current_pressure, "current_humidity": current_humidity,
                         "altitude": current_altitude, "speed": speed,
                         "latitude": lat, "longitude": lng}
+
+                with open(csv_path, "a") as csv_file:
+                    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                    writer.writerow(data)
 
                 try:
                     dweepy.dweet_for("evoltalt", data, session=session)

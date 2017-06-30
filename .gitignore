@@ -224,3 +224,7 @@ ENV/
 # mkdocs documentation
 /site
 *.cfg
+
+### ###
+*.csv
+*.ipynb

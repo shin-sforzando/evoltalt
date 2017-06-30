@@ -1,3 +1,11 @@
 coloredlogs
 dweepy
 requests
+numpy
+scipy
+matplotlib
+pandas
+seaborn
+bokeh
+jupyter
+jupyterlab
