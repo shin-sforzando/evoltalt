@@ -37,6 +37,9 @@ evoltalt
 * [dweet.io](https://dweet.io/follow/evoltalt)
 * [freeboard](https://freeboard.io/board/FXvozP)
 
+Get latest -> `https://dweet.io/get/latest/dweet/for/evoltalt`
+Get via stream `curl -i https://dweet.io/listen/for/dweets/from/evoltalt`
+
 ## TODO
 ### TX
 

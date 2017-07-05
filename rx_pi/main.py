@@ -47,19 +47,21 @@ pattern = re.compile(regex)
 
 queue_alt_ma = []
 
+
 def estimate_altitude(base_pressure, current_pressure, current_temperature):
-    a = (((current_pressure / base_pressure) ** (1.0 / 5.275) - 1.0) * (current_temperature + 273.15)) / 0.0065
+    a = (((base_pressure / current_pressure) ** (1.0 / 5.275) - 1.0) * (current_temperature + 273.15)) / 0.0065
     queue_alt_ma.append(a)
     if ALT_MA_SIZE < len(queue_alt_ma):
         queue_alt_ma.pop(0)
     return sum(queue_alt_ma) / len(queue_alt_ma)
 
+
 def get_location():
     try:
         response = requests.get("http://ipinfo.io/", timeout=1.0)
-    except requests.exceptions.RequestException as re:
-        logger.error(de)
-        return (0, 0)
+    except requests.exceptions.RequestException as e:
+        logger.error(e)
+        return (58.9667, 5.7500)  # -> Stavanger
     return response.json()["loc"].split(",")
 
 
@@ -70,10 +72,13 @@ idx = 0
 fieldnames = ["timestamp", "sender", "rssi", "charge", "base_temperature", "base_pressure", "base_humidity", "current_temperature", "current_pressure", "current_humidity", "altitude", "speed", "latitude", "longitude"]
 
 with serial.Serial("/dev/ttyUSB0", 19200) as ser:
-    if os.stat(csv_path).st_size == 0:
+    if os.path.isfile(csv_path) and os.stat(csv_path).st_size == 0:
         with open(csv_path, "w") as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
+
+    lat, lng = get_location()
+    logger.info("Lat / Lng: %s / %s", lat, lng)
 
     time.sleep(1)
 
@@ -85,10 +90,6 @@ with serial.Serial("/dev/ttyUSB0", 19200) as ser:
                 now = datetime.now()
                 delta_t = now - last_update
                 logger.info("# %s (Δ: %s [s])", "{0:06d}".format(idx), delta_t.total_seconds())
-
-                if idx % 1000 == 0:
-                    lat, lng = get_location()
-                    logger.info("Lat / Lng: %s / %s", lat, lng)
 
                 base_temperature, base_pressure, base_humidity = bme280.readBME280All()
                 base_pressure = round(base_pressure, BASE_NDIGITS)
